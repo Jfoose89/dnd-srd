@@ -1,0 +1,6 @@
+@dnd_srd_HostAddress = http://localhost:5042
+
+GET {{dnd_srd_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
