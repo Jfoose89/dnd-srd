@@ -55,20 +55,26 @@ The API uses a Fixed Window rate limiter allowing 30 requests per minute. Exceed
 Endpoints
 Editions
 MethodEndpointDescriptionAuth RequiredGET/api/editionsReturns all editionsNoPOST/api/editionsCreates a new editionYesPUT/api/editions/{id}Updates an existing editionYesDELETE/api/editions/{id}Deletes an editionYes
+
 Monster Types
 MethodEndpointDescriptionAuth RequiredGET/api/monstertypesReturns all monster typesNoPOST/api/monstertypesCreates a new monster typeYesPUT/api/monstertypes/{id}Updates a monster typeYesDELETE/api/monstertypes/{id}Deletes a monster typeYes
+
 Monsters
 MethodEndpointDescriptionAuth RequiredGET/api/monstersReturns paginated list with filtersNoGET/api/monsters/{id}Returns full monster detailsNoPOST/api/monstersCreates a new monsterYesPUT/api/monsters/{id}Updates an existing monsterYesDELETE/api/monsters/{id}Deletes a monsterYes
 Query Parameters for GET /api/monsters:
 ParameterTypeDescriptionpageintPage number (default: 1)pageSizeintResults per page (default: 20)namestringFilter by name (partial match)sizestringFilter by size (e.g. Small, Medium, Large)minCRdoubleMinimum challenge ratingmaxCRdoubleMaximum challenge ratingeditionIdintFilter by editionmonsterTypeIdintFilter by monster type
+
 Classes
 MethodEndpointDescriptionAuth RequiredGET/api/classesReturns all classes and subclassesNoGET/api/classes/{id}Returns a single class by IDNoPOST/api/classesCreates a new class or subclassYesPUT/api/classes/{id}Updates an existing classYesDELETE/api/classes/{id}Deletes a classYes
+
 Spells
 MethodEndpointDescriptionAuth RequiredGET/api/spellsReturns paginated list with filtersNoGET/api/spells/{id}Returns full spell detailsNoPOST/api/spellsCreates a new spellYesPUT/api/spells/{id}Updates an existing spellYesDELETE/api/spells/{id}Deletes a spellYes
 Query Parameters for GET /api/spells:
 ParameterTypeDescriptionnamestringFilter by name (partial match)schoolstringFilter by school (e.g. Evocation, Illusion)levelintFilter by spell level (0 = cantrip)editionIdintFilter by editionclassIdintFilter by class
+
 Races
 MethodEndpointDescriptionAuth RequiredGET/api/racesReturns all racesNoGET/api/races/{id}Returns a single race by IDNoPOST/api/racesCreates a new raceYesPUT/api/races/{id}Updates an existing raceYesDELETE/api/races/{id}Deletes a raceYes
+
 Rule Entries
 MethodEndpointDescriptionAuth RequiredGET/api/rulesReturns all rule entries with filtersNoGET/api/rules/{id}Returns a single rule entry by IDNoPOST/api/rulesCreates a new rule entryYesPUT/api/rules/{id}Updates an existing rule entryYesDELETE/api/rules/{id}Deletes a rule entryYes
 Query Parameters for GET /api/rules:
@@ -86,38 +92,11 @@ json{
 Status CodeMeaning200OK201Created204No Content400Bad Request — invalid input401Unauthorized — API key missing403Forbidden — invalid API key404Not Found429Too Many Requests — rate limit exceeded500Internal Server Error
 
 Project Structure
-dnd-srd/
-├── Controllers/
-│   ├── ClassesController.cs
-│   ├── EditionsController.cs
-│   ├── MonstersController.cs
-│   ├── MonsterTypesController.cs
-│   ├── RacesController.cs
-│   ├── RuleEntriesController.cs
-│   └── SpellsController.cs
-├── Data/
-│   ├── AppDbContext.cs
-│   └── DbSeeder.cs
-├── DTOs/
-│   ├── Requests/
-│   └── Responses/
-├── Models/
-│   ├── AbilityScores.cs
-│   ├── Action.cs
-│   ├── Class.cs
-│   ├── Edition.cs
-│   ├── Environment.cs
-│   ├── Monster.cs
-│   ├── MonsterType.cs
-│   ├── Race.cs
-│   ├── RuleEntry.cs
-│   ├── Spell.cs
-│   └── Trait.cs
-├── Services/
-│   ├── ApiKeyMiddleware.cs
-│   ├── ApiSeederService.cs
-│   ├── CacheExtensions.cs
-│   ├── CorsExtensions.cs
-│   ├── ExceptionMiddleware.cs
-│   └── RateLimitingExtensions.cs
-└── Program.cs
+Controllers
+FileDescriptionClassesController.csCRUD endpoints for classes and subclassesEditionsController.csCRUD endpoints for editionsMonstersController.csCRUD endpoints for monsters with filteringMonsterTypesController.csCRUD endpoints for monster typesRacesController.csCRUD endpoints for racesRuleEntriesController.csCRUD endpoints for rule entriesSpellsController.csCRUD endpoints for spells with filtering
+Data
+FileDescriptionAppDbContext.csEF Core In-Memory database contextDbSeeder.csSeeds reference data on startup
+Models
+FileDescriptionMonster.csMonster entitySpell.csSpell entityRace.csRace entityClass.csClass and subclass entityRuleEntry.csRule entry entityEdition.csEdition entityMonsterType.csMonster type entityAbilityScores.csMonster ability scoresAction.csMonster actionTrait.csMonster traitEnvironment.csMonster environment
+Services
+FileDescriptionApiKeyMiddleware.csValidates API key on POST, PUT, DELETE requestsApiSeederService.csFetches monsters and spells from Open5e on startupExceptionMiddleware.csRFC 7807 custom exception handlingCacheExtensions.csIn-memory caching configurationCorsExtensions.csCORS policy configurationRateLimitingExtensions.csFixed window rate limiter configuration
