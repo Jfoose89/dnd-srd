@@ -2,29 +2,34 @@ D&D SRD Rules Database API
 A RESTful API built with ASP.NET Core (.NET 9) that serves as a multi-edition D&D and Pathfinder SRD rules database. The API supports four tabletop RPG editions and provides full CRUD operations across monsters, spells, races, classes, and rule entries.
 
 Supported Editions
-EditionPublisherLicenseD&D 5th EditionWizards of the CoastCC BY 4.0D&D 3.5 EditionWizards of the CoastOGL 1.0aPathfinder 1ePaizoOGL 1.0aPathfinder 2ePaizoORC License
+
+-D&D 5th Edition — Wizards of the Coast (CC BY 4.0)
+-D&D 3.5 Edition — Wizards of the Coast (OGL 1.0a)
+-Pathfinder 1e — Paizo (OGL 1.0a)
+-Pathfinder 2e — Paizo (ORC License)
+
 
 Tech Stack
 
-Framework: ASP.NET Core Web API (.NET 9)
-Database: EF Core In-Memory
-Documentation: Swagger UI
-HTTP Client: IHttpClientFactory with Polly retry/circuit breaker
-External Data: Open5e API
+-Framework: ASP.NET Core Web API (.NET 9)
+-Database: EF Core In-Memory
+-Documentation: Swagger UI
+-HTTP Client: IHttpClientFactory with Polly retry/circuit breaker
+-External Data: Open5e API
 
 
 Getting Started
 Prerequisites
 
-.NET 9 SDK
-Visual Studio 2022 or VS Code
+-.NET 9 SDK
+-Visual Studio 2022 or VS Code
 
 Running the API
 
-Clone the repository
-Open dnd-srd.sln in Visual Studio
-Right-click the project and select Manage User Secrets
-Add the following to secrets.json:
+-Clone the repository
+-Open dnd-srd.sln in Visual Studio
+-Right-click the project and select Manage User Secrets
+-Add the following to secrets.json:
 
 json{
   "ApiKeys": {
@@ -54,31 +59,89 @@ The API uses a Fixed Window rate limiter allowing 30 requests per minute. Exceed
 
 Endpoints
 Editions
-MethodEndpointDescriptionAuth RequiredGET/api/editionsReturns all editionsNoPOST/api/editionsCreates a new editionYesPUT/api/editions/{id}Updates an existing editionYesDELETE/api/editions/{id}Deletes an editionYes
+
+-GET /api/editions — Returns all editions
+-POST /api/editions — Creates a new edition (requires API key)
+-PUT /api/editions/{id} — Updates an existing edition (requires API key)
+-DELETE /api/editions/{id} — Deletes an edition (requires API key)
+
 
 Monster Types
-MethodEndpointDescriptionAuth RequiredGET/api/monstertypesReturns all monster typesNoPOST/api/monstertypesCreates a new monster typeYesPUT/api/monstertypes/{id}Updates a monster typeYesDELETE/api/monstertypes/{id}Deletes a monster typeYes
+
+-GET /api/monstertypes — Returns all monster types
+-POST /api/monstertypes — Creates a new monster type (requires API key)
+-PUT /api/monstertypes/{id} — Updates a monster type (requires API key)
+-DELETE /api/monstertypes/{id} — Deletes a monster type (requires API key)
+
 
 Monsters
-MethodEndpointDescriptionAuth RequiredGET/api/monstersReturns paginated list with filtersNoGET/api/monsters/{id}Returns full monster detailsNoPOST/api/monstersCreates a new monsterYesPUT/api/monsters/{id}Updates an existing monsterYesDELETE/api/monsters/{id}Deletes a monsterYes
-Query Parameters for GET /api/monsters:
-ParameterTypeDescriptionpageintPage number (default: 1)pageSizeintResults per page (default: 20)namestringFilter by name (partial match)sizestringFilter by size (e.g. Small, Medium, Large)minCRdoubleMinimum challenge ratingmaxCRdoubleMaximum challenge ratingeditionIdintFilter by editionmonsterTypeIdintFilter by monster type
+
+-GET /api/monsters — Returns a paginated list of monsters with optional filters
+-GET /api/monsters/{id} — Returns full details for a single monster
+-POST /api/monsters — Creates a new monster (requires API key)
+-PUT /api/monsters/{id} — Updates an existing monster (requires API key)
+-DELETE /api/monsters/{id} — Deletes a monster (requires API key)
+
+Query parameters for GET /api/monsters:
+
+-page — Page number (default: 1)
+-pageSize — Results per page (default: 20)
+-name — Filter by name (partial match)
+-size — Filter by size (e.g. Small, Medium, Large)
+-minCR — Minimum challenge rating
+-maxCR — Maximum challenge rating
+-editionId — Filter by edition
+-monsterTypeId — Filter by monster type
+
 
 Classes
-MethodEndpointDescriptionAuth RequiredGET/api/classesReturns all classes and subclassesNoGET/api/classes/{id}Returns a single class by IDNoPOST/api/classesCreates a new class or subclassYesPUT/api/classes/{id}Updates an existing classYesDELETE/api/classes/{id}Deletes a classYes
+
+-GET /api/classes — Returns all classes and subclasses
+-GET /api/classes/{id} — Returns a single class by ID
+-POST /api/classes — Creates a new class or subclass (requires API key)
+-PUT /api/classes/{id} — Updates an existing class (requires API key)
+-DELETE /api/classes/{id} — Deletes a class (requires API key)
+
 
 Spells
-MethodEndpointDescriptionAuth RequiredGET/api/spellsReturns paginated list with filtersNoGET/api/spells/{id}Returns full spell detailsNoPOST/api/spellsCreates a new spellYesPUT/api/spells/{id}Updates an existing spellYesDELETE/api/spells/{id}Deletes a spellYes
-Query Parameters for GET /api/spells:
-ParameterTypeDescriptionnamestringFilter by name (partial match)schoolstringFilter by school (e.g. Evocation, Illusion)levelintFilter by spell level (0 = cantrip)editionIdintFilter by editionclassIdintFilter by class
+
+-GET /api/spells — Returns a paginated list of spells with optional filters
+-GET /api/spells/{id} — Returns full details for a single spell
+-POST /api/spells — Creates a new spell (requires API key)
+-PUT /api/spells/{id} — Updates an existing spell (requires API key)
+-DELETE /api/spells/{id} — Deletes a spell (requires API key)
+
+Query parameters for GET /api/spells:
+
+-name — Filter by name (partial match)
+-school — Filter by school (e.g. Evocation, Illusion)
+-level — Filter by spell level (0 = cantrip)
+-editionId — Filter by edition
+-classId — Filter by class
+
 
 Races
-MethodEndpointDescriptionAuth RequiredGET/api/racesReturns all racesNoGET/api/races/{id}Returns a single race by IDNoPOST/api/racesCreates a new raceYesPUT/api/races/{id}Updates an existing raceYesDELETE/api/races/{id}Deletes a raceYes
+
+-GET /api/races — Returns all races
+-GET /api/races/{id} — Returns a single race by ID
+-POST /api/races — Creates a new race (requires API key)
+-PUT /api/races/{id} — Updates an existing race (requires API key)
+-DELETE /api/races/{id} — Deletes a race (requires API key)
+
 
 Rule Entries
-MethodEndpointDescriptionAuth RequiredGET/api/rulesReturns all rule entries with filtersNoGET/api/rules/{id}Returns a single rule entry by IDNoPOST/api/rulesCreates a new rule entryYesPUT/api/rules/{id}Updates an existing rule entryYesDELETE/api/rules/{id}Deletes a rule entryYes
-Query Parameters for GET /api/rules:
-ParameterTypeDescriptioncategorystringFilter by category (Weapon, Equipment, Feat)editionIdintFilter by edition
+
+-GET /api/rules — Returns all rule entries with optional filters
+-GET /api/rules/{id} — Returns a single rule entry by ID
+-POST /api/rules — Creates a new rule entry (requires API key)
+-PUT /api/rules/{id} — Updates an existing rule entry (requires API key)
+-DELETE /api/rules/{id} — Deletes a rule entry (requires API key)
+
+Query parameters for GET /api/rules:
+
+-category — Filter by category (Weapon, Equipment, Feat)
+-editionId — Filter by edition
+
 
 Error Responses
 All errors follow the RFC 7807 ProblemDetails format:
@@ -89,14 +152,54 @@ json{
   "detail": "Error detail message here.",
   "instance": "/api/monsters"
 }
-Status CodeMeaning200OK201Created204No Content400Bad Request — invalid input401Unauthorized — API key missing403Forbidden — invalid API key404Not Found429Too Many Requests — rate limit exceeded500Internal Server Error
+Status codes:
+
+-200 — OK
+-201 — Created
+-204 — No Content
+-400 — Bad Request (invalid input)
+-401 — Unauthorized (API key missing)
+-403 — Forbidden (invalid API key)
+-404 — Not Found
+-429 — Too Many Requests (rate limit exceeded)
+-500 — Internal Server Error
+
 
 Project Structure
 Controllers
-FileDescriptionClassesController.csCRUD endpoints for classes and subclassesEditionsController.csCRUD endpoints for editionsMonstersController.csCRUD endpoints for monsters with filteringMonsterTypesController.csCRUD endpoints for monster typesRacesController.csCRUD endpoints for racesRuleEntriesController.csCRUD endpoints for rule entriesSpellsController.csCRUD endpoints for spells with filtering
+
+-ClassesController.cs — CRUD endpoints for classes and subclasses
+-EditionsController.cs — CRUD endpoints for editions
+-MonstersController.cs — CRUD endpoints for monsters with filtering
+-MonsterTypesController.cs — CRUD endpoints for monster types
+-RacesController.cs — CRUD endpoints for races
+-RuleEntriesController.cs — CRUD endpoints for rule entries
+-SpellsController.cs — CRUD endpoints for spells with filtering
+
 Data
-FileDescriptionAppDbContext.csEF Core In-Memory database contextDbSeeder.csSeeds reference data on startup
+
+-AppDbContext.cs — EF Core In-Memory database context
+-DbSeeder.cs — Seeds reference data on startup
+
 Models
-FileDescriptionMonster.csMonster entitySpell.csSpell entityRace.csRace entityClass.csClass and subclass entityRuleEntry.csRule entry entityEdition.csEdition entityMonsterType.csMonster type entityAbilityScores.csMonster ability scoresAction.csMonster actionTrait.csMonster traitEnvironment.csMonster environment
+
+-Monster.cs — Monster entity
+-Spell.cs — Spell entity
+-Race.cs — Race entity
+-Class.cs — Class and subclass entity
+-RuleEntry.cs — Rule entry entity
+-Edition.cs — Edition entity
+-MonsterType.cs — Monster type entity
+-AbilityScores.cs — Monster ability scores
+-Action.cs — Monster action
+-Trait.cs — Monster trait
+-Environment.cs — Monster environment
+
 Services
-FileDescriptionApiKeyMiddleware.csValidates API key on POST, PUT, DELETE requestsApiSeederService.csFetches monsters and spells from Open5e on startupExceptionMiddleware.csRFC 7807 custom exception handlingCacheExtensions.csIn-memory caching configurationCorsExtensions.csCORS policy configurationRateLimitingExtensions.csFixed window rate limiter configuration
+
+-ApiKeyMiddleware.cs — Validates API key on POST, PUT, DELETE requests
+-ApiSeederService.cs — Fetches monsters and spells from Open5e on startup
+-ExceptionMiddleware.cs — RFC 7807 custom exception handling
+-CacheExtensions.cs — In-memory caching configuration
+-CorsExtensions.cs — CORS policy configuration
+-RateLimitingExtensions.cs — Fixed window rate limiter configuration
