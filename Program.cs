@@ -41,6 +41,11 @@ builder.Services.AddHttpClient("Open5eClient", client =>
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseInMemoryDatabase("DndSrdDb"));
 
+if (builder.Environment.IsDevelopment())
+{
+    builder.Configuration.AddUserSecrets<Program>();
+}
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

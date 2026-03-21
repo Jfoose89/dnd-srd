@@ -1,4 +1,5 @@
-﻿using dnd_srd.Models;
+﻿using System.Xml.Linq;
+using dnd_srd.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace dnd_srd.Data
@@ -47,11 +48,11 @@ namespace dnd_srd.Data
             modelBuilder.Entity<Monster>()
                 .HasIndex(m => m.Name).IsUnique();
             modelBuilder.Entity<Spell>()
-                .HasIndex(s => s.Name).IsUnique();
+                .HasIndex(s => new { s.Name, s.EditionId }).IsUnique();
             modelBuilder.Entity<Race>()
-                .HasIndex(r => r.Name).IsUnique();
+                .HasIndex(r => new { r.Name, r.EditionId }).IsUnique();
             modelBuilder.Entity<Class>()
-                .HasIndex(c => c.Name).IsUnique();
+                .HasIndex(c => new { c.Name, c.EditionId }).IsUnique();
         }
     }
 }

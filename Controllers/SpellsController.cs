@@ -72,8 +72,8 @@ namespace dnd_srd.Controllers
                     School = s.School,
                     Concentration = s.Concentration,
                     Ritual = s.Ritual,
-                    ClassName = s.Class.Name,
-                    EditionName = s.Edition.Name,
+                    ClassName = s.Class?.Name ?? "Unknown",
+                    EditionName = s.Edition?.Name ?? "Unknown",
                     SourceUrl = $"/api/spells/{s.Id}"
                 }).ToList(),
                 Page = page,

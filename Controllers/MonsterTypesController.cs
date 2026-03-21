@@ -26,7 +26,7 @@ namespace dnd_srd.Controllers
             {
                 Id = t.Id,
                 Name = t.Name,
-                Description = t.Description!
+                Description = t.Description
             }));
         }
 
@@ -40,7 +40,7 @@ namespace dnd_srd.Controllers
             {
                 Id = type.Id,
                 Name = type.Name,
-                Description = type.Description!
+                Description = type.Description
             });
         }
 
@@ -61,7 +61,7 @@ namespace dnd_srd.Controllers
             {
                 Id = type.Id,
                 Name = type.Name,
-                Description = type.Description!
+                Description = type.Description
             };
 
             return CreatedAtAction(nameof(GetMonsterType), new { id = type.Id }, result);
@@ -83,7 +83,7 @@ namespace dnd_srd.Controllers
             {
                 Id = type.Id,
                 Name = type.Name,
-                Description = type.Description!
+                Description = type.Description
             });
         }
 

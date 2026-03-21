@@ -24,9 +24,7 @@ namespace dnd_srd.Controllers
             [FromQuery] int pageSize = 20,
             [FromQuery] int? editionId = null,
             [FromQuery] string? category = null,
-            [FromQuery] string? name = null,
-            [FromQuery] double? minCost = null,
-            [FromQuery] double? maxCost = null)
+            [FromQuery] string? name = null)
         {
             var query = _context.RuleEntries
                 .Include(r => r.Edition)

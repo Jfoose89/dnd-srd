@@ -15,6 +15,7 @@
         public string EditionName { get; set; } = string.Empty;
         public string? ParentClassName { get; set; }
         public List<string> Subclasses { get; set; } = new();
+        public List<string> Spells { get; set; } = new();
         public string SourceUrl { get; set; } = string.Empty;
     }
 }

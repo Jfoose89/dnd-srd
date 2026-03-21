@@ -48,7 +48,7 @@ public class ApiSeederService
         try
         {
             var client = _httpClientFactory.CreateClient("Open5eClient");
-            var response = await client.GetAsync("https://api.open5e.com/v1/monsters/?limit=50&document__slug=wotc-srd");
+            var response = await client.GetAsync("v1/monsters/?limit=50&document__slug=wotc-srd");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -128,7 +128,7 @@ public class ApiSeederService
         try
         {
             var client = _httpClientFactory.CreateClient("Open5eClient");
-            var response = await client.GetAsync("https://api.open5e.com/v1/spells/?limit=50&document__slug=wotc-srd");
+            var response = await client.GetAsync("v1/spells/?limit=50&document__slug=wotc-srd");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -141,6 +141,11 @@ public class ApiSeederService
             var results = doc.RootElement.GetProperty("results");
 
             var wizardClass = context.Classes.FirstOrDefault(c => c.Name == "Wizard");
+            if (wizardClass == null)
+            {
+                _logger.LogWarning("Wizard class not found in database. Skipping spell seeding.");
+                return;
+            }
 
             int added = 0;
             foreach (var item in results.EnumerateArray())

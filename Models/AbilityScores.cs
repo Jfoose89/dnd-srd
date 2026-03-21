@@ -28,22 +28,22 @@ namespace dnd_srd.Models
 
         // Derived - computed in C#, not in stored database
         [NotMapped]
-        public int StrengthModifier => (Strength - 10) / 2;
+        public int StrengthModifier => (int)Math.Floor((Strength - 10) / 2.0);
 
         [NotMapped]
-        public int DexterityModifier => (Dexterity - 10) / 2;
+        public int DexterityModifier => (int)Math.Floor((Dexterity - 10) / 2.0);
 
         [NotMapped]
-        public int ConstitutionModifier => (Constitution - 10) / 2;
+        public int ConstitutionModifier => (int)Math.Floor((Constitution - 10) / 2.0);
 
         [NotMapped]
-        public int IntelligenceModifier => (Intelligence - 10) / 2;
+        public int IntelligenceModifier => (int)Math.Floor((Intelligence - 10) / 2.0);
 
         [NotMapped]
-        public int WisdomModifier => (Wisdom - 10) / 2;
+        public int WisdomModifier => (int)Math.Floor((Wisdom - 10) / 2.0);
 
         [NotMapped]
-        public int CharismaModifier => (Charisma - 10) / 2;
+        public int CharismaModifier => (int)Math.Floor((Charisma - 10) / 2.0);
 
         // Navigation
         public Monster Monster { get; set; } = null!;

@@ -7,12 +7,14 @@ public class ApiKeyMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly IConfiguration _configuration;
+    private readonly ILogger<ApiKeyMiddleware> _logger;
     private const string ApiKeyHeader = "X-Api-Key";
 
-    public ApiKeyMiddleware(RequestDelegate next, IConfiguration configuration)
+    public ApiKeyMiddleware(RequestDelegate next, IConfiguration configuration, ILogger<ApiKeyMiddleware> logger)
     {
         _next = next;
         _configuration = configuration;
+        _logger = logger;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -33,7 +35,13 @@ public class ApiKeyMiddleware
 
             var validApiKey = _configuration["ApiKeys:InternalApiKey"];
 
-            if (!string.Equals(extractedApiKey, validApiKey, StringComparison.Ordinal))
+            if (!string.IsNullOrEmpty(validApiKey))
+            {
+                _logger.LogWarning("ApiKeys:InternalApiKey is not configured.");
+                context.Response.StatusCode = 500;
+                await context.Response.WriteAsync("API key configuration missing.");
+                return;
+            }
             {
                 context.Response.StatusCode = 403;
                 await context.Response.WriteAsync("Invalid API key.");

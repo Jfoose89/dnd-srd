@@ -11,8 +11,8 @@ namespace dnd_srd.Models
         public string Name { get; set; } = string.Empty;
         
         [Required]
-        public string? Description { get; set; }
-        
+        public string Description { get; set; } = string.Empty;
+
         // Foreign Key
         public int MonsterId { get; set; }
         // Navigation

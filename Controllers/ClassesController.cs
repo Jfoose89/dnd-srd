@@ -101,6 +101,7 @@ namespace dnd_srd.Controllers
                 EditionName = c.Edition.Name,
                 ParentClassName = c.ParentClass?.Name,
                 Subclasses = c.Subclasses.Select(s => s.Name).ToList(),
+                Spells = c.Spells.Select(s => s.Name).ToList(),
                 SourceUrl = $"/api/classes/{c.Id}"
             });
         }
@@ -149,6 +150,8 @@ namespace dnd_srd.Controllers
                 WeaponProficiencies = newClass.WeaponProficiencies,
                 IsSRD = newClass.IsSRD,
                 EditionName = edition.Name,
+                ParentClassName = newClass.ParentClass?.Name,
+                Subclasses = new List<string>(),
                 SourceUrl = $"/api/classes/{newClass.Id}"
             });
         }
@@ -157,7 +160,10 @@ namespace dnd_srd.Controllers
         public async Task<ActionResult<ClassResponseDto>> UpdateClass(
             int id, [FromBody] ClassRequestDto dto)
         {
-            var c = await _context.Classes.FindAsync(id);
+            var c = await _context.Classes
+                .Include(c => c.ParentClass)
+                .Include(c => c.Subclasses)
+                .FirstOrDefaultAsync(c => c.Id == id);
             if (c == null) return NotFound();
 
             var edition = await _context.Editions.FindAsync(dto.EditionId);
@@ -188,6 +194,8 @@ namespace dnd_srd.Controllers
                 WeaponProficiencies = c.WeaponProficiencies,
                 IsSRD = c.IsSRD,
                 EditionName = edition.Name,
+                ParentClassName = c.ParentClass?.Name,
+                Subclasses = c.Subclasses.Select(s => s.Name).ToList(),
                 SourceUrl = $"/api/classes/{c.Id}"
             });
         }

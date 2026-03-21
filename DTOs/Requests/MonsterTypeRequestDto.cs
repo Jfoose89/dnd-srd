@@ -8,6 +8,6 @@ namespace dnd_srd.DTOs.Requests
         [StringLength(100)]
         public string Name { get; set; } = string.Empty;
 
-        public string? Description { get; set; }
+        public string Description { get; set; } = string.Empty;
     }
 }
