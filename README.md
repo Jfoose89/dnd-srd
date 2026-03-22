@@ -1,6 +1,10 @@
 D&D SRD Rules Database API
 A RESTful API built with ASP.NET Core (.NET 9) that serves as a multi-edition D&D and Pathfinder SRD rules database. The API supports four tabletop RPG editions and provides full CRUD operations across monsters, spells, races, classes, and rule entries.
 
+## Entity Relationship Diagram
+
+![ERD Diagram](img/dnd_er_diagram.png)
+
 Supported Editions
 
 -D&D 5th Edition — Wizards of the Coast (CC BY 4.0)
